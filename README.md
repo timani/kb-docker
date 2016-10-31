@@ -1,1 +1,1 @@
-# pcf-kb-apps-manager-
+# pcf-kb-apps-manager
