@@ -1,1 +1,28 @@
+# see http://about.travis-ci.org/docs/user/languages/oython/ for more hints
+language: python
+python:
+  - 2.7
+cache: pip
 
+# optionally specify a list of environments, for example to test different RDBMS
+env:
+  - DB=mysql
+  - DB=pgsql
+
+install:
+  - pip install awscli
+
+
+# execute any number of scripts before the test run, custom env's are available as variables
+before_script:
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
+
+# omitting "script:" will default to phpunit
+# use the $DB env variable to determine the phpunit.xml to use
+script: phpunit --configuration phpunit_$DB.xml --coverage-text
+
+after_success:
+    "curl --ftp-create-dirs -T uploadfilename -u $FTP_USER:$FTP_PASSWORD ftp://sitename.com/directory/myfile"
+
+# Update the Topic repo and article being added with the new KB ID
+# before_deploy:
