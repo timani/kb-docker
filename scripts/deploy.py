@@ -4,8 +4,9 @@ import frontmatter, git, json
 # https://gitpython.readthedocs.io/en/stable/tutorial.html#the-commit-object
 
 # Set the request parameters
-url = 'https://kbplanning.zendesk.com/api/v2/help_center/en-us/articles.json'
-user = os.environ['KB_USER']
+#url = 'https://kbplanning.zendesk.com/api/v2/help_center/en-us/articles.json'
+url = 'https://discuss1437411968.zendesk.com/hc/en-usarticles.json'
+user = os.environ['KB_USER']  + '/token'
 pwd = os.environ['KB_PASSWORD']
 
 # @TODO exclude README.md files
@@ -147,7 +148,7 @@ def zd_request(u, req_data=None, method='GET', ):
 
     # URL
     print 'Perform an HTTP Request to Zendesk -> zd_request()'
-    req_url = 'https://kbplanning.zendesk.com/api/v2/%s' % u
+    req_url = 'https://discuss1437411968.zendesk.com/api/v2/%s' % u
     print req_url
 
     if method is 'POST':

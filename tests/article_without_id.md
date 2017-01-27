@@ -1,6 +1,7 @@
 ---
 title: Post with ID!
-layout: Post
+template: break-fix
+id:
 locale: en-us
 ---
 
