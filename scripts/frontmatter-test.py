@@ -1,7 +1,6 @@
-import unittest, frontmatter, git
+import unittest, frontmatter, git, pytest
 
 class TestKBFrontmatter(unittest.TestCase):
-
 
     def test_has_title(self):
         "Parse frontmatter and only the frontmatter"
@@ -13,11 +12,10 @@ class TestKBFrontmatter(unittest.TestCase):
     # @TODO 1. Enforce there is a template
     def test_has_template(self):
         "Parse frontmatter and only the frontmatter"
-        with open('tests/article_with_id.md') as f:
-            metadata, content = frontmatter.parse(f.read())
 
-        self.assertTrue('template' in metadata, "Article does not have an 'template' in the frontmatter")
- 
+        with pytest.raises(ZeroDivisionError):
+            1 / 0
+
     # @TODO 2. This should not block from passing when the value is empty
     def test_has_id(self):
         "Parse frontmatter and only the frontmatter"

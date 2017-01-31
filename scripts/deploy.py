@@ -46,6 +46,7 @@ def create_article(article):
     create_url = '/api/v2/help_center/en-us/articles.json'
 
     # Create a new article
+    # @TODO define a section
     new_article = zd_request(create_url)
     # Check if article_id exists in .md
     if new_article:
@@ -74,12 +75,8 @@ def update_article(article):
     if hc_article:
         print 'Success - An article exists with ID - %d -> update_article()' % article['id']
 
-        # https://developer.zendesk.com/rest_api/docs/help_center/articles#update-article
-        """curl https://kbplanning.zendesk.com/api/v2/help_center/articles/115001647907/translations/en-us.json \
-        -d '{"translation": {"body": "if the article exists in the helpcenter then update"}}'
-          -v -u {email_address}:{password} -X PUT -H "Content-Type: application/json"
-        """
         update_url = 'help_center/articles/%d/translations/en-us' %  article['id']
+        # @TODO define a section
         data = {'translation':{'body': article.content }}
         updated_article = zd_request(update_url, data, 'PUT')
 

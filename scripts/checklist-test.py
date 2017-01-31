@@ -1,10 +1,13 @@
 import unittest, frontmatter, git
 
-class TestKBFrontmatter(unittest.TestCase):
+class TestChecklistTemplate(unittest.TestCase):
    
      # @TODO 1. Enforce there is an title ## h1
     def test_has_title(self):
-        return
+        try:
+            pass
+        except ValueError:
+            print("Oops!  That was no valid number.  Try again...")
 
     # @TODO 2. Enforce there is an Environment ## h2
     def test_has_environment(self):
