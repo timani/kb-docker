@@ -1,12 +1,20 @@
-import unittest, frontmatter, git, pytest
+import unittest, frontmatter, git, pytest, sys
 
+# assuming 1 file at a time
+try:
+    file_name = str(sys.argv[1])
+except expression as identifier:
+    file_name = "tests/article_with_id.md"
+
+if not file_name:
+    
 class TestKBFrontmatter(unittest.TestCase):
 
     def test_has_title(self):
         "Parse frontmatter and only the frontmatter"
-        with open('tests/article_with_id.md') as f:
+        with open(file_name) as f:
             metadata, content = frontmatter.parse(f.read())
-
+            print content
         self.assertTrue('title' in metadata, "Article does not have an 'title' in the frontmatter")
 
     # @TODO 1. Enforce there is a template
