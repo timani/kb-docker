@@ -5,7 +5,7 @@ class KBFrontmatter():
 
     file_name = ''
 
-    def __init__(self, file_name):
+    def set_filename(self, file_name):
         self.file_name = file_name
 
     def has_title(self):
@@ -61,11 +61,11 @@ class KBFrontmatter():
 
    # @TODO 1. Enforce there is a template
     def validate_markdown(self):
-        print  "\n************  Validating Article - %s **********\n" % file_name                  
-        kb.has_title()
-        kb.has_template()
-        kb.has_id()      
-        kb.has_locale()      
+        print  "\n************  Validating Article - %s **********\n" % self.file_name                  
+        self.has_title()
+        self.has_template()
+        self.has_id()      
+        self.has_locale()      
 
 if __name__ == '__main__':
     # assuming 1 file at a time
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         else:
             print file_name + ' - is not markdown: Skipping'
     else:
-        print 'Not file specified. \nExample Command:'
+        print 'No file specified. \nExample Command:'
         print '\n python scripts/frontmatter-test.py article.md'
 
     

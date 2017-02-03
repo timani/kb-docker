@@ -1,51 +1,54 @@
 import frontmatter, pytest, sys, subprocess, git
-from scripts import *
+from scripts.KBFrontmatter import KBFrontmatter
 
 class KBValidator():
 
-    file_name = ''
+    repository = git.Git('./')
+    base_branch = ''
+    target_branch = ''
 
     def __init__(self, ):
-        pass
+        self.set_base()
+        self.set_tartget()
 
-    def gitDiff(self, branch1, branch2):
+    def gitDiff(self, branch1='', branch2=''):
+        if branch1:
+            self.set_base(branch1)
+        if branch2:
+            self.set_tartget(branch2)
+
         format = '--name-only'
         commits = []
-        g = git.Git('./')
-        d = g.diff('%s..%s' % ('HEAD', 'master'), format).split("\n")
+        d = self.repository.diff('%s..%s' % ('HEAD', 'master'), format).split("\n")
 
         return d
+    
+    def set_base(self, base='HEAD'):
+        if base:
+            self.base_branch = base
 
-   # @TODO 1. Enforce there is a template
-    def has_locale(self):
-        "Parse frontmatter and only the frontmatter"
-        with open(self.file_name) as f:
-            metadata, content = frontmatter.parse(f.read())
-            # print content
-        if 'locale' in metadata:
-            print  "+++ Success: Article has a 'locale' in the frontmatter - %s" % metadata['locale']                   
-            return True
-        else:
-            print  "*** Error: Article does not have a 'locale' in the frontmatter"          
-            return False
+        self.base_branch = self.repository.active_branch
+    
+    def set_tartget(self, target='master'):
+        if target:
+            self.target_branch = target
 
-   # @TODO 1. Enforce there is a template
-    def validate_markdown(self):
-        print  "\n************  Validating Article - %s **********\n" % file_name                  
-        kb.has_locale()  
+        self.target_branch = target
+
 
 if __name__ == '__main__':
     # assuming 1 file at a time
 
     kb_validator = KBValidator()
-    diff_files = kb_validator.gitDiff('HEAD', 'master')
+    diff_files = kb_validator.gitDiff()
     print diff_files
+    markup = KBFrontmatter()
     for c in diff_files:
         print '-- ' + c
         if c.endswith(('.md', '.markdown')):
-            print '---> ' + c + ' - is markdown: Processing'
-            kb_frontmatter = KBFrontmatter(c)
-            kb_frontmatter.validate_markdown()
+            print '---> ' + c + ' - is markdown: Processing...'
+            markup.set_filename(c)
+            print markup.validate_markdown()
         else:
             print '---> ' + c + ' - is not markdown: Skipping'
 
