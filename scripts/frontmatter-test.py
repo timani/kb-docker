@@ -1,57 +1,84 @@
-import unittest, frontmatter, git, pytest, sys
+import frontmatter, git, pytest, sys
 
-# assuming 1 file at a time
-file_name = str(sys.argv[1])
 
-class TestKBFrontmatter(unittest.TestCase):
+class KBFrontmatter():
 
-    def test_has_title(self):
+    file_name = ''
+
+    def __init__(self, file_name):
+        self.file_name = file_name
+
+    def has_title(self):
         "Parse frontmatter and only the frontmatter"
-        with open(file_name) as f:
+        with open(self.file_name) as f:
             metadata, content = frontmatter.parse(f.read())
-            print content
-        self.assertFalse('title' in metadata, "Article does not have an 'title' in the frontmatter")
+            print metadata
+        if 'title' in metadata:
+            print  "+++ Success: Article has a 'title' in the frontmatter - %s" % metadata['title']                   
+            return True
+        else:
+            print  "*** Error: Article does not have a 'title' in the frontmatter"          
+            return False
 
-    # @TODO 1. Enforce there is a template
-    def test_has_template(self):
+   # @TODO 1. Enforce there is a template
+    def has_template(self):
         "Parse frontmatter and only the frontmatter"
-
-        with pytest.raises(ZeroDivisionError):
-            1 / 0
-
-    # @TODO 2. This should not block from passing when the value is empty
-    def test_has_id(self):
-        "Parse frontmatter and only the frontmatter"
-        with open('tests/article_with_id.md') as f:
+        with open(self.file_name) as f:
             metadata, content = frontmatter.parse(f.read())
+            # print content
+        if 'template' in metadata:
+            print  "+++ Success: Article has a 'template' in the frontmatter - %s" % metadata['template']                   
+            return True
+        else:
+            print  "*** Error: Article does not have a 'template' in the frontmatter"          
+            return False
 
-        self.assertTrue('template' in metadata, "Article does not have an 'template' in the frontmatter")
-
-  # @TODO 2. This should not block from passing when the value is empty
-    def test_has_id_is_int(self):
+   # @TODO 1. Enforce there is a template
+    def has_id(self):
         "Parse frontmatter and only the frontmatter"
-        with open('tests/article_with_id.md') as f:
+        with open(self.file_name) as f:
             metadata, content = frontmatter.parse(f.read())
-
-        self.assertTrue('template' in metadata, "Article does not have an 'template' in the frontmatter")
-
-  
-    def test_has_locale(self):
+            # print content
+        if 'id' in metadata:
+            print  "+++ Success: Article has a 'id' in the frontmatter - %s" % metadata['id']                   
+            return True
+        else:
+            print  "*** Error: Article does not have a 'id' in the frontmatter"          
+            return False
+ 
+   # @TODO 1. Enforce there is a template
+    def has_locale(self):
         "Parse frontmatter and only the frontmatter"
-        with open('tests/article_with_id.md') as f:
+        with open(self.file_name) as f:
             metadata, content = frontmatter.parse(f.read())
+            # print content
+        if 'locale' in metadata:
+            print  "+++ Success: Article has a 'locale' in the frontmatter - %s" % metadata['locale']                   
+            return True
+        else:
+            print  "*** Error: Article does not have a 'locale' in the frontmatter"          
+            return False
 
-        self.assertTrue('locale' in metadata, "Article does not have an 'locale' in the frontmatter")
-
-    # @TODO 3. Markdown check, all files must be .md or .markdown
-    def test_is_markdown_file(self):
-        "Parse frontmatter and only the frontmatter"
-        with open('tests/article_with_id.md') as f:
-            metadata, content = frontmatter.parse(f.read())
-
-        self.assertTrue('locale' in metadata, "Article does not have an 'locale' in the frontmatter")
+   # @TODO 1. Enforce there is a template
+    def validate_markdown(self):
+        print  "\n************  Validating Article - %s **********\n" % file_name                  
+        kb.has_title()
+        kb.has_template()
+        kb.has_id()      
+        kb.has_locale()      
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestKBFrontmatter)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    # assuming 1 file at a time
+    if len(sys.argv) > 1:
+        file_name = str(sys.argv[1])
+        if file_name.endswith(('.md', '.markdown')):
+            print file_name + ' - is markdown: Processing'
+            kb = KBFrontmatter(file_name)
+            kb.validate_markdown()
+        else:
+            print file_name + ' - is not markdown: Skipping'
+    else:
+        print 'Not file specified. \nExample Command:'
+        print '\n python scripts/frontmatter-test.py article.md'
 
+    
