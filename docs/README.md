@@ -34,15 +34,16 @@ This will detect the files that are a diff between master and the `HEAD` of the 
 Each article will be validated against the critieria to ensure the articles meet the Knowledge Base standards
 
 ```
-************  Validating Article - tests/article_with_id.md **********
+************  Validating Article - tests/fixtures/article_with_id.md **********
 
-tests/article_with_id.md
-This file does not exist in the current branch - has title
-This file does not exist in the current branch - has template
-This file does not exist in the current branch - has ID
-This file does not exist in the current branch - has ID
--- tests/article_without_id.md
----> tests/article_without_id.md - is markdown: Processing...
+tests/fixtures/article_with_id.md
+{'locale': 'en-us', 'id': 32131312132134, 'template': 'break-fix', 'title': 'Post with ID!'}
++++ Success: Article has a 'title' in the frontmatter - Post with ID!
++++ Success: Article has a 'template' in the frontmatter - break-fix
++++ Success: Article has a 'id' in the frontmatter - 32131312132134
++++ Success: Article has a 'locale' in the frontmatter - en-us
+-- tests/fixtures/article_with_no_id.md
+---> tests/fixtures/article_with_no_id.md - is markdown: Processing...
 ...
 ```
 
