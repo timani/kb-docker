@@ -1,4 +1,4 @@
-# Docker image for validating and deploying Knowledge Base Articles
+# Docker image to validate & deploying Knowledge Base Articles
 
 A small Docker image to validate and build articles so they can be validated and published to the Pivotal Knowledge Base. For more information on how to build and customize the image, review the [Documentation].
 
