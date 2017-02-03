@@ -1,10 +1,12 @@
-# A Docker image for validating and deploying Knowledge Base Articles
+# Docker image for validating and deploying Knowledge Base Articles
+
+A small Docker image to validate and build articles so they can be validated and published to the Pivotal Knowledge Base. For more information on how to build and customize the image, review the [Documentation].
 
 ## Table of Contents
 
 -   [Overview]
 -   [Quickstart]
--   [Handbooks]
+-   [Developers]
 
 ## Overview
 
@@ -47,7 +49,11 @@ git pull
 docker pull pivotal-support/kb-docker
 ```
 
+## Developers
+
+Some information about how to develop and customize the Docker image. 
 
 [Overview]: https://github.com/pivotal-gss/pcf-guide#overview
-[Architecture]: https://github.com/pivotal-gss/pcf-guide#architecture
+[Documentation]: https://github.com/pivotal-gss/kb-docker/tree/master/docs
+[Quickstart]: https://github.com/pivotal-gss/pcf-guide#architecture
 [Handbooks]: https://github.com/pivotal-gss/pcf-guide#development
