@@ -4,6 +4,7 @@ import frontmatter, git, pytest, sys
 class KBFrontmatter():
 
     file_name = ''
+    is_valid = False
 
     def set_filename(self, file_name):
         self.file_name = file_name
@@ -62,10 +63,16 @@ class KBFrontmatter():
    # @TODO 1. Enforce there is a template
     def validate_markdown(self):
         print  "\n************  Validating Article - %s **********\n" % self.file_name                  
-        self.has_title()
-        self.has_template()
-        self.has_id()      
-        self.has_locale()      
+        if self.has_title():
+            self.is_valid = True
+        if not self.has_template():
+            self.is_valid = True
+        if not self.has_id():
+            self.is_valid = False
+        if not self.has_locale():
+            self.is_valid = False
+
+        return self.is_valid
 
 if __name__ == '__main__':
     # assuming 1 file at a time
