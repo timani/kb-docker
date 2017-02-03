@@ -55,5 +55,6 @@ Some information about how to develop and customize the Docker image.
 
 [Overview]: https://github.com/pivotal-gss/pcf-guide#overview
 [Documentation]: https://github.com/pivotal-gss/kb-docker/tree/master/docs
+[Developers]: https://github.com/pivotal-gss/pcf-guide#architecture
 [Quickstart]: https://github.com/pivotal-gss/pcf-guide#architecture
 [Handbooks]: https://github.com/pivotal-gss/pcf-guide#development
