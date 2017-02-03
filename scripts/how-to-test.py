@@ -3,7 +3,7 @@ import unittest, frontmatter, git
 class TestHowToTemplate(unittest.TestCase):
    
      # @TODO 1. Enforce there is an title ## h1
-    def test_has_title(self):
+    def has_title(self):
         return
 
     # @TODO 2. Enforce there is an Environment ## h2

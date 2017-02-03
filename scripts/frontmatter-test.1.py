@@ -1,4 +1,19 @@
 import unittest, frontmatter, git, pytest, sys
+<<<<<<< HEAD:scripts/frontmatter-test.py
+=======
+
+# assuming 1 file at a time
+try:
+    file_name = str(sys.argv[1])
+
+    if file_name.endswith(('.md', '.markdown')):
+        pass
+    else:
+        print file_name + ' - is not markdown: Skipping'
+
+except IndexError:
+    pass
+>>>>>>> bar:scripts/frontmatter-test.1.py
 
 # assuming 1 file at a time
 try:
@@ -15,7 +30,11 @@ class TestKBFrontmatter(unittest.TestCase):
         with open(file_name) as f:
             metadata, content = frontmatter.parse(f.read())
             print content
+<<<<<<< HEAD:scripts/frontmatter-test.py
         self.assertTrue('title' in metadata, "Article does not have an 'title' in the frontmatter")
+=======
+        self.assertFalse('title' in metadata, "Article does not have an 'title' in the frontmatter")
+>>>>>>> bar:scripts/frontmatter-test.1.py
 
     # @TODO 1. Enforce there is a template
     def test_has_template(self):
