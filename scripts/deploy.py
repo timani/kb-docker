@@ -5,7 +5,7 @@ import frontmatter, git, json
 
 # Set the request parameters
 #url = 'https://kbplanning.zendesk.com/api/v2/help_center/en-us/articles.json'
-url = 'https://discuss12345.zendesk.com/hc/en-usarticles.json'
+url = 'https://discuss1437411968.zendesk.com/hc/en-usarticles.json'
 user = os.environ['KB_USER']  + '/token'
 pwd = os.environ['KB_PASSWORD']
 
