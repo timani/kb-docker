@@ -9,7 +9,6 @@ RUN apk add --update \
     git \
   && rm -rf /var/cache/apk/*
 RUN pip install --upgrade pip
-RUN git clone https://github.com/pivotal-gss/kb-docker.git
 WORKDIR /kb-docker
 RUN pip install -r /kb-docker/requirements.txt
 
