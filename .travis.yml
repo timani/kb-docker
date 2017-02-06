@@ -1,16 +1,10 @@
-# see http://about.travis-ci.org/docs/user/languages/python/ for more hints
+sudo: required
+
 language: python
-python:
-  - "2.7"
-# command to install dependencies
-install: 
-# use pyaml for tests above py26
- - pip install -r requirements.txt
-# command to run tests
-script: "./script.sh"
 
-after_success:
-    "./script.sh"
+services:
+  - docker
 
-# Update the Topic repo and article being added with the new KB ID
-# before_deploy:
+before_install:
+- docker build -t pivotal-gss/kb-docker . 
+- docker run -it pivotal-gss/kb-docker
