@@ -9,7 +9,7 @@ for filename in $var; do
 	python scripts/frontmatter-test.py $filename
 done
 
-if [ "${TRAVIS_PULL_REQUEST}" = "true" ] && [ "$TRAVIS_BRANCH" == "prod" ]; then
+if [ "${TRAVIS_PULL_REQUEST}" = "true" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 	for filename in $var; do
 		python scripts/deploy.py  
 	done	
