@@ -15,6 +15,7 @@ There are currently two ways to configure the Environment:
 ## Quickstart
 
 ```
+make build
 ```
 
 ## Manual Configuration

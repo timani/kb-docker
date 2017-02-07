@@ -1,5 +1,5 @@
 import requests, os, sys
-import frontmatter, git, json
+import frontmatter, git, json, markdown2
 
 # https://gitpython.readthedocs.io/en/stable/tutorial.html#the-commit-object
 
@@ -77,7 +77,8 @@ def update_article(article):
 
         update_url = 'help_center/articles/%d/translations/en-us' %  article['id']
         # @TODO define a section
-        data = {'translation':{'body': article.content }}
+        html = markdown2.markdown(article.content)
+        data = {'translation':{'body': html}}
         updated_article = zd_request(update_url, data, 'PUT')
 
         if updated_article:
@@ -181,7 +182,7 @@ def load_article_from_source():
     """
     # TODO loop through diff for .md files (Exclude README.md)
     # Load the markdown from the article
-    article = frontmatter.load('tests/article_with_id.md')
+    article = frontmatter.load('tests/fixtures/barebones.md')
     #article = frontmatter.load('tests/article_without_id.md')
 
     # Extract the Article id
