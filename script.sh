@@ -6,7 +6,7 @@ var=$(git diff --name-only HEAD...master)
 echo "$var"
 
 for filename in $var; do
-	python scripts/frontmatter-test.py $filename
+	python script.py 
 done
 
 if [ "${TRAVIS_PULL_REQUEST}" = "true" ] && [ "$TRAVIS_BRANCH" == "prod" ]; then

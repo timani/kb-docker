@@ -9,8 +9,12 @@ RUN apk add --update \
     git \
   && rm -rf /var/cache/apk/*
 RUN pip install --upgrade pip
+ADD . /kb-docker
 WORKDIR /kb-docker
-RUN pip install -r /kb-docker/requirements.txt
-
-EXPOSE 8080
-ENTRYPOINT ["/kb-docker/script.sh"]
+# Should the dependencies be packakged as part of the repo?
+# cases when pip is unavailable
+# RUN pip install virtualenv
+# RUN virtualenv venv
+# RUN source venv/bin/activate
+# RUN pip2 install -r requirements.txt
+# ENTRYPOINT ["sh /kb-docker/script.sh"]
