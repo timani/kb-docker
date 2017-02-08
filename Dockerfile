@@ -17,4 +17,4 @@ WORKDIR /kb-docker
 # RUN virtualenv venv
 # RUN source venv/bin/activate
 RUN pip2 install -r requirements.txt
-ENTRYPOINT ["/bin/bash /kb-docker/script.sh"]
+ENTRYPOINT ["/kb-docker/script.sh"]
