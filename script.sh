@@ -2,6 +2,10 @@
 
 set -ev
 
+#TESTING
+python script.py
+python scripts/deploy.py
+
 var=$(git diff --name-only HEAD...master)
 echo "$var"
 
