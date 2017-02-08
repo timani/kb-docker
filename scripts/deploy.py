@@ -7,7 +7,6 @@ import frontmatter, git, json, markdown2
 kb_target_url = os.environ['KB_TARGET_URL']
 # An example
 # export KB_TARGET_URL='https://discuss13420948029.zendesk.com/api/v2/%s'
-
 user = os.environ['KB_USER']  + '/token'
 pwd = os.environ['KB_PASSWORD']
 
