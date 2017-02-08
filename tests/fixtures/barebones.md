@@ -3,7 +3,7 @@ title: Post with ID!
 template: break-fix
 id: 213730187
 locale: en-us
-author: rchampati
+author: timani
 ---
 
 [Source](https://discuss.pivotal.io/hc/en-us/articles/222099807-Pivotal-Cloud-Foundry-Elastic-Runtime-install-issue-seen-on-AWS-with-NAT-gateway "Permalink to Pivotal Cloud Foundry® Elastic Runtime install issue seen on AWS with NAT gateway – All Help &amp; Support")
