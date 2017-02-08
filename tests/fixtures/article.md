@@ -5,7 +5,7 @@ id: 221514427
 locale: en-us
 ---
 
-# How to snoop traffic going through an application in Diego cell – All Help & Support
+# How to snoop traffic going through an application in Diego cell
 
 ## Environment
 
