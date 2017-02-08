@@ -3,7 +3,7 @@ title: Post with ID!
 template: break-fix
 id: 213730187
 locale: en-us
-author: punalpatel
+author: rchampati
 ---
 
 [Source](https://discuss.pivotal.io/hc/en-us/articles/222099807-Pivotal-Cloud-Foundry-Elastic-Runtime-install-issue-seen-on-AWS-with-NAT-gateway "Permalink to Pivotal Cloud Foundry® Elastic Runtime install issue seen on AWS with NAT gateway – All Help &amp; Support")
@@ -57,12 +57,6 @@ Some more information can be found [here][4],&nbsp;[3]&nbsp;for NAT instances wi
 **Additional Information**
 
 For further information, please refer to the following resources:&nbsp;
-
-[1]&nbsp;<https: docs.aws.amazon.com="" amazonvpc="" latest="" userguide="" vpc_nat_instance.html#natinstance="">
-
-[2]&nbsp;<https: docs.aws.amazon.com="" amazonvpc="" latest="" userguide="" vpc_nat_instance.html#nat-routing-table="">
-
-[3]&nbsp;<http: docs.pivotal.io="" pivotalcf="" 1-7="" customizing="" pcf-aws-manual-config.html#pcfaws-nat="">
 
 [1]: http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html
 [2]: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html#NATInstance

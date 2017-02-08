@@ -1,6 +1,6 @@
 import frontmatter, pytest, sys, subprocess, git
-from lib.KBFrontmatter import KBFrontmatter
-from lib.KBValidator import KBValidator
+from src.KBFrontmatter import KBFrontmatter
+from src.KBValidator import KBValidator
 
 
 if __name__ == '__main__':
