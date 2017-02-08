@@ -4,8 +4,10 @@ import frontmatter, git, json, markdown2
 # https://gitpython.readthedocs.io/en/stable/tutorial.html#the-commit-object
 
 # Set the request parameters
-#url = 'https://kbplanning.zendesk.com/api/v2/help_center/en-us/articles.json'
-url = 'https://discuss12345.zendesk.com/hc/en-usarticles.json'
+kb_target_url = os.environ['KB_TARGET_URL']
+# An example
+# export KB_TARGET_URL='https://discuss1437411968.zendesk.com/api/v2/%s'
+
 user = os.environ['KB_USER']  + '/token'
 pwd = os.environ['KB_PASSWORD']
 
@@ -146,7 +148,7 @@ def zd_request(u, req_data=None, method='GET', ):
 
     # URL
     print 'Perform an HTTP Request to Zendesk -> zd_request()'
-    req_url = 'https://discuss1437411968.zendesk.com/api/v2/%s' % u
+    req_url = '%s/%s' % (kb_target_url, u)
     print req_url
 
     if method is 'POST':
