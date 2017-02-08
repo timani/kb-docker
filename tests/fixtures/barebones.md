@@ -1,54 +1,72 @@
+---
+title: Post with ID!
+template: break-fix
+id: 213730187
+locale: en-us
+author: punalpatel
+---
 
-# Break Fix Template (Add the Product name here)
+[Source](https://discuss.pivotal.io/hc/en-us/articles/222099807-Pivotal-Cloud-Foundry-Elastic-Runtime-install-issue-seen-on-AWS-with-NAT-gateway "Permalink to Pivotal Cloud Foundry® Elastic Runtime install issue seen on AWS with NAT gateway – All Help &amp; Support")
 
-## Environment
+# Pivotal Cloud Foundry® Elastic Runtime install issue seen on AWS with NAT gateway – All Help &amp; Support
 
-**Populate the table with the environment specifications where the problem occurred as shown the example below.**
+**Environment**
 
-Product | Version
-------- | --------
-Pivotal {{PRODUCT_NAME}} | {{VERSION}}
-OS | {{OPERATING SYSTEM}}
-	 
-## Symptom
+| ----- |
+| Product |  Version |  
+| **Pivotal Cloud Foundry® (PCF) Elastic Runtime&nbsp;** | 
 
-**Include a description of the symptoms or problem statement as shown in the example below:**
+&nbsp;1.7.x
 
-When attempting an upgrade from XYZ version 1.2.2 to version 1.2.3, the installation fails with error message “Upgrade failed”.
+ | 
 
-Error Message:
-**If applicable, copy and paste the error message.**
+**Symptom**
 
-## Cause (Recommended if known)
+[AWS NAT gateways][1]&nbsp;**were introduced in the Elastic Runtime 1.7 cloud formation scripts for&nbsp;deploying to Amazon Web Services (AWS). One possible error you may see that indicates that you are having issues with the AWS Network Address Translation (NAT) gateway is if you find that the Apps Manager errand does not complete. You may also see that it times out before it can complete as shown below**:
+    
+    
+    Started running errand &gt; push-apps-manager/0. Failed: Timed 
+    out sending `run_errand' 
+    to 31d2a6d4-d136-4b12-a53c-3c33fe3101ee after 45 seconds (00:00:45)
+    
+    Error 450002: Timed out sending `run_errand' 
+    to 31d2a6d4-d136-4b12-a53c-3c33fe3101ee after 45 seconds
 
-**Include a description of what caused the problem.**
+**Cause**
 
-### RCA (Optional, if applicable)
+**The AWS NAT gateway can sometimes have delays or timeouts for some hairpin NAT traffic back to the Elastic Runtime load balancer when using Transport Layer Security (TLS) protocol**.
 
-**If the RCA is applicable, write the description.**
+**Resolution**
 
-While upgrading the XYZ version 1.2.2 to version 1.2.3, the backup intermittently stops working because of the following reasons:
+**To work around this issue, it is recommended to move from NAT gateways back to NAT EC2 instances that were previously used in versions prior to PCF ER 1.7**.  
+**The&nbsp;following steps can be used to convert from using&nbsp;NAT gateway to using NAT instance**:
 
-*	Bullet List
-*	Bullet List
-*	Bullet List
-*	Bullet List
+1. Log on to the AWS console.
+2. **Create a NAT instance in the public subnet of your PCF VPC, and assign it a public IP. You can find the AMI ID of the supported Amazon NAT instances by searching the public AMI list for "amzn-ami-vpc-nat" and picking one of those. We usually use 64-bit HVM instances, of size t2.medium (or larger if you need more bandwidth).**&nbsp;[[1][2]]
+3. **Disable source-destination checking on your newly booted NAT instance.**
+4. **Within your VPC, change all the route tables**&nbsp;[[2][3]]&nbsp;**(there might be just one) that currently uses your NAT gateway as the default route (0.0.0.0/0) to use your NAT instance instead.**
+5. **You can create 1 NAT instance for each availability zone (AZ), or you can dump all the traffic into a single NAT instance. That depends on how much production availability you require, and how much traffic you expect. All NAT instances must be booted in a public subnet (a subnet with the IGW as the default route), and have src/dest checking disabled, so you'll need many public subnets if you want to have truly reliable multi-AZ setup.**
+6. **You can leave the NAT gateway in place, it won't be used as you have changed your route tables to use the NAT instance(s) that you have created. You can, if you wish, delete the NAT Gateway to reduce&nbsp;cost**.
 
-##Resolution
+Some more information can be found [here][4],&nbsp;[3]&nbsp;for NAT instances with Pivotal Cloud Foundry.
 
-**Use any of the examples below to write the steps to resolve the problem.**
+**Continued investigations by R&amp;D**
 
-Follow the steps to resolve this issue:
+**R&amp;D&nbsp;will deliver a new cloud formation template in due course and are&nbsp;also investigating the issue with AWS in the hopes of fixing the issue so that we can use&nbsp;NAT gateways in the future**.
 
-1.	Numbered List
-2.	Numbered List
-3.	Numbered List
+**Additional Information**
 
-## Additional Information (Optional)
+For further information, please refer to the following resources:&nbsp;
 
-**Include additional information such as KB articles, references to the original documentation (e.g. Admin Guide or Installation Guide) or any other resource that helped documenting this article.**
+[1]&nbsp;<https: docs.aws.amazon.com="" amazonvpc="" latest="" userguide="" vpc_nat_instance.html#natinstance="">
 
-### Internal Comments
+[2]&nbsp;<https: docs.aws.amazon.com="" amazonvpc="" latest="" userguide="" vpc_nat_instance.html#nat-routing-table="">
 
-Notes: **Provide any notes that you have for the SME or technical writer.**
+[3]&nbsp;<http: docs.pivotal.io="" pivotalcf="" 1-7="" customizing="" pcf-aws-manual-config.html#pcfaws-nat="">
 
+[1]: http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html
+[2]: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html#NATInstance
+[3]: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html#nat-routing-table
+[4]: http://docs.pivotal.io/pivotalcf/1-7/customizing/pcf-aws-manual-config.html#pcfaws-nat
+
+  </http:></https:></https:>

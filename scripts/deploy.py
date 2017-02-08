@@ -1,11 +1,12 @@
 import requests, os, sys
-import frontmatter, git, json
+import frontmatter, git, json, markdown2
 
 # https://gitpython.readthedocs.io/en/stable/tutorial.html#the-commit-object
 
 # Set the request parameters
-#url = 'https://kbplanning.zendesk.com/api/v2/help_center/en-us/articles.json'
-url = 'https://discuss1437411968.zendesk.com/hc/en-usarticles.json'
+kb_target_url = os.environ['KB_TARGET_URL']
+# An example
+# export KB_TARGET_URL='https://discuss13420948029.zendesk.com/api/v2/%s'
 user = os.environ['KB_USER']  + '/token'
 pwd = os.environ['KB_PASSWORD']
 
@@ -77,7 +78,8 @@ def update_article(article):
 
         update_url = 'help_center/articles/%d/translations/en-us' %  article['id']
         # @TODO define a section
-        data = {'translation':{'body': article.content }}
+        html = markdown2.markdown(article.content)
+        data = {'translation':{'body': html}}
         updated_article = zd_request(update_url, data, 'PUT')
 
         if updated_article:
@@ -145,7 +147,7 @@ def zd_request(u, req_data=None, method='GET', ):
 
     # URL
     print 'Perform an HTTP Request to Zendesk -> zd_request()'
-    req_url = 'https://discuss1437411968.zendesk.com/api/v2/%s' % u
+    req_url = '%s/%s' % (kb_target_url, u)
     print req_url
 
     if method is 'POST':
@@ -181,7 +183,7 @@ def load_article_from_source():
     """
     # TODO loop through diff for .md files (Exclude README.md)
     # Load the markdown from the article
-    article = frontmatter.load('tests/article_with_id.md')
+    article = frontmatter.load('tests/fixtures/barebones.md')
     #article = frontmatter.load('tests/article_without_id.md')
 
     # Extract the Article id

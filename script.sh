@@ -6,12 +6,13 @@ var=$(git diff --name-only HEAD...master)
 echo "$var"
 
 for filename in $var; do
-	python scripts/frontmatter-test.py $filename
+	python script.py 
 done
 
-if [ "${TRAVIS_PULL_REQUEST}" = "true" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+# @TODO Add a local variable for non-travis testing
+ if [ "${TRAVIS_PULL_REQUEST}" = "true" ] && [ "$TRAVIS_BRANCH" == "prod" ]; then
 	for filename in $var; do
 		python scripts/deploy.py  
 	done	
-fi
+ fi
 
