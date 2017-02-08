@@ -8,7 +8,7 @@ if __name__ == '__main__':
     kb_validator = KBValidator()
 
     # List the files that are different between HEAD..master
-    diff_files = kb_validator.gitDiff()
+    diff_files = kb_validator.git_diff()
     print diff_files
 
     # Validate the KB frontmatter
