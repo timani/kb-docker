@@ -1,5 +1,7 @@
 FROM alpine
 #ENV to test the python code
+ARG travis_branch=local
+ENV TRAVIS_BRANCH $travis_branch
 RUN apk add --update \
     python \
     python-dev \
