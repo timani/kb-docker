@@ -1,7 +1,5 @@
 FROM alpine
 #ENV to test the python code
-ENV TRAVIS_PULL_REQUEST true
-ENV TRAVIS_BRANCH prod
 RUN apk add --update \
     python \
     python-dev \
