@@ -48,12 +48,16 @@ def create_article(article):
 
     # Create a new article
     # @TODO define a section
-    new_article = zd_request(create_url)
+    html = markdown2.markdown(article.content)
+    data = {'translation':{'body': html, 'title': article['title']}}
+    new_article = zd_request(create_url, data, 'POST')
+
     # Check if article_id exists in .md
     if new_article:
         print 'Success - An article was created in the helpcenter ID - XXXX'
+        print new_article
         # @TODO - update_git_article
-        update_git_article(article)
+        update_git_article(new_article)
     else:
         print 'Error - Unable to create a new article in the helpcenter'
     
@@ -91,7 +95,7 @@ def update_article(article):
     print "Return an instance of the updated_article -> update_article()"
     return updated_article
 
-def update_git_article():
+def update_git_article(article):
     """
 
     Returns:
@@ -114,13 +118,19 @@ def git_diff(branch1, branch2):
     Returns:
       bool: The return value. True for success, False otherwise.
     """
+    repository = git.Git('./')
     log_format = '--name-only'
     commits = []
-    git_repo = git.Git('/path/to/git/repo')
-    differ = git_repo.diff('%s..%s' % (branch1, branch2), log_format).split("\n")
-    for line in differ:
-        if len(line):
-            commits.append(line)
+    # This should use the class variables
+    # d = self.repository.diff('%s..%s' % ('master', 'HEAD'), log_format).split("\n")
+    try:
+        differ = repository.diff('%s..%s' % (branch1, branch2), log_format).split("\n")
+        for line in differ:
+            if len(line):
+                commits.append(line)
+    except Exception:
+        print 'Please make sure you have a valid repo'
+        pass
 
     #for commit in commits:
     #    print '*%s' % (commit)
@@ -173,7 +183,7 @@ def zd_request(u, req_data=None, method='GET', ):
     # print data
     return data
 
-def load_article_from_source():
+def process_article(article):
     """
       Args:
       param2 (str): The second parameter.
@@ -183,24 +193,47 @@ def load_article_from_source():
     """
     # TODO loop through diff for .md files (Exclude README.md)
     # Load the markdown from the article
-    article = frontmatter.load('tests/fixtures/barebones.md')
+    #article = frontmatter.load('tests/fixtures/barebones.md')
     #article = frontmatter.load('tests/article_without_id.md')
 
     # Extract the Article id
     if 'id' in article.keys():
-        print 'I HAVE AND ID -> load_article_from_source()'
+        print 'I HAVE AND ID -> process_article()'
         update_article(article)
     else:
-        print 'NO ID FOR YOU -> load_article_from_source()'
-        return
+        print 'NO ID FOR YOU -> process_article()'
         create_article(article)
 
 def main():
     """  
     """
-  # https://gitpython.readthedocs.io/en/stable/tutorial.html#the-commit-object
-  # get_article(1150016479071)
-    load_article_from_source()
+    # Validate all the files in commit
+    # kb_validator = KBValidator()
+
+    # List the files that are different between HEAD..master
+    # diff_files = kb_validator.git_diff()
+    diff_files = git_diff('prod', 'HEAD')
+    print diff_files
+
+    # Loop through the files
+    for c in diff_files:
+        print '-- ' + c
+        # Validate the file is markdown
+        if c.endswith(('.md', '.markdown')):
+            print '---> ' + c + ' - is markdown: Processing...'
+            process_article(c)
+        else:
+            print '---> ' + c + ' - is not markdown: Skipping'
+    
+    """if markup.is_valid:
+        print "\n*************************\n"
+        print "Failed: %d errors Detected" % markup.is_valid
+        print "\n************************\n"
+        exit()
+    """
     
 if __name__ == "__main__":
     main()
+
+
+    # print kb_validator.is_valid
