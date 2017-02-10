@@ -36,7 +36,7 @@ def get_article(article_id):
         print 'Error - Unable find an article with ID - %d' % (article_id)
         return
 
-def create_article(article):
+def create_article(metadata, content):
     """
     Args:
       article (article): An instance of a Help Center Article
@@ -48,8 +48,8 @@ def create_article(article):
 
     # Create a new article
     # @TODO define a section
-    html = markdown2.markdown(article.content)
-    data = {'translation':{'body': html, 'title': article['title']}}
+    html = markdown2.markdown(content)
+    data = {'translation':{'body': html, 'title': metadata['title']}}
     new_article = zd_request(create_url, data, 'POST')
 
     # Check if article_id exists in .md
@@ -64,7 +64,7 @@ def create_article(article):
     return new_article
 
 
-def update_article(article):
+def update_article(metadata, content):
     """
     Args:
       article (article): An instance of a Help Center Article
@@ -74,15 +74,15 @@ def update_article(article):
     """
     print 'Check if article_id exists in the Help Center -> update_article()'
     # Check if the article exists in the helpcenter
-    hc_article = get_article(article['id'])
+    hc_article = get_article(metadata['id'])
     # if the article exists in the helpcenter then update
 
     if hc_article:
-        print 'Success - An article exists with ID - %d -> update_article()' % article['id']
+        print 'Success - An article exists with ID - %d -> update_article()' % metadata['id']
 
-        update_url = 'help_center/articles/%d/translations/en-us' %  article['id']
+        update_url = 'help_center/articles/%d/translations/en-us' %  metadata['id']
         # @TODO define a section
-        html = markdown2.markdown(article.content)
+        html = markdown2.markdown(content)
         data = {'translation':{'body': html}}
         updated_article = zd_request(update_url, data, 'PUT')
 
@@ -183,7 +183,7 @@ def zd_request(u, req_data=None, method='GET', ):
     # print data
     return data
 
-def process_article(article):
+def process_article(metadata, content):
     """
       Args:
       param2 (str): The second parameter.
@@ -197,12 +197,12 @@ def process_article(article):
     #article = frontmatter.load('tests/article_without_id.md')
 
     # Extract the Article id
-    if 'id' in article.keys():
+    if 'id' in metadata.keys():
         print 'I HAVE AND ID -> process_article()'
-        update_article(article)
+        update_article(metadata, content)
     else:
         print 'NO ID FOR YOU -> process_article()'
-        create_article(article)
+        create_article(metadata, content)
 
 def main():
     """  
@@ -212,7 +212,7 @@ def main():
 
     # List the files that are different between HEAD..master
     # diff_files = kb_validator.git_diff()
-    diff_files = git_diff('prod', 'HEAD')
+    diff_files = git_diff('master', 'prod')
     print diff_files
 
     # Loop through the files
@@ -221,7 +221,20 @@ def main():
         # Validate the file is markdown
         if c.endswith(('.md', '.markdown')):
             print '---> ' + c + ' - is markdown: Processing...'
-            process_article(c)
+            # article = metadata, content = frontmatter.parse(c.read())
+
+            try:
+                with open(c) as f:
+                    metadata, content = frontmatter.parse(f.read())
+                    print metadata 
+                    return False
+            except IOError:
+                # If the diff is a delete or move the file may no longer
+                # exist in the current branch
+                print 'This file does not exist in the current branch - has title'
+                pass
+
+            process_article(metadata, content)
         else:
             print '---> ' + c + ' - is not markdown: Skipping'
     
