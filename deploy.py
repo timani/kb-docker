@@ -227,7 +227,6 @@ def main():
                 with open(c) as f:
                     metadata, content = frontmatter.parse(f.read())
                     print metadata 
-                    return False
             except IOError:
                 # If the diff is a delete or move the file may no longer
                 # exist in the current branch
