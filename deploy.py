@@ -84,6 +84,7 @@ def update_article(metadata, content):
         # @TODO define a section
         html = markdown2.markdown(content)
         data = {'translation':{'body': html}}
+
         updated_article = zd_request(update_url, data, 'PUT')
 
         if updated_article:
@@ -195,10 +196,14 @@ def process_article(metadata, content):
     # Load the markdown from the article
     #article = frontmatter.load('tests/fixtures/barebones.md')
     #article = frontmatter.load('tests/article_without_id.md')
-
+            
+    #print metadata.content
+    # return
     # Extract the Article id
     if 'id' in metadata.keys():
         print 'I HAVE AND ID -> process_article()'
+        print content
+        return
         update_article(metadata, content)
     else:
         print 'NO ID FOR YOU -> process_article()'
@@ -212,7 +217,7 @@ def main():
 
     # List the files that are different between HEAD..master
     # diff_files = kb_validator.git_diff()
-    diff_files = git_diff('master', 'prod')
+    diff_files = git_diff('master', 'HEAD')
     print diff_files
 
     # Loop through the files
@@ -226,7 +231,6 @@ def main():
             try:
                 with open(c) as f:
                     metadata, content = frontmatter.parse(f.read())
-                    print metadata 
             except IOError:
                 # If the diff is a delete or move the file may no longer
                 # exist in the current branch
