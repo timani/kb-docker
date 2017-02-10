@@ -1,6 +1,6 @@
 ---
 title: How to snoop traffic going through an application in Diego cell
-template: how-to
+template: break-fix
 id: 213730187
 locale: en-us
 ---
