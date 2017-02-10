@@ -83,7 +83,7 @@ def update_article(metadata, content):
         update_url = 'help_center/articles/%d/translations/en-us' %  metadata['id']
         # @TODO define a section
         html = markdown2.markdown(content)
-        data = {'translation':{'body': html}}
+        data = {'translation':{'body': html, 'titie': metadata['title']}}
 
         updated_article = zd_request(update_url, data, 'PUT')
 
