@@ -11,7 +11,7 @@ echo "${TRAVIS_BRANCH}"
 echo "${TRAVIS_PULL_REQUEST}"
 
 # @TODO Add a local variable for non-travis testing
- if [ "${TRAVIS_PULL_REQUEST}" && ["${TRAVIS_BRANCH}" == "prod"] ]; then
+ if ["${TRAVIS_PULL_REQUEST}" && ["${TRAVIS_BRANCH}" == "prod"]]; then
 	for filename in $var; do
 		python scripts/deploy.py  
 	done	
